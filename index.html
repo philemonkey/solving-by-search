@@ -1,40 +1,690 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+	<title>reveal.js</title>
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/custom.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<section data-background-color="white" data-background="images/bild.png" data-background-opacity="0.5"
+				data-auto-animate>
+				<h1>PROBLEM SOLVING BY SEARCHING</h1>
+			</section>
+			<section data-background-color="white" data-background="images/bild.png" data-background-opacity="0.5"
+				data-auto-animate>
+				<h1>PROBLEM SOLVING BY SEARCHING</h1>
+				<h2>DEFINITION, TECHNIQUES & CHARACTERISTICS</h2>
+			</section>
+
+			<section data-background-color="white" data-background="images/bild.png" data-background-opacity="0.2">
+				<h2>Problem-Solving Agents</h2>
+				<section data-auto-animate>
+					<p>Definition of Problem-Solving Agents</p>
+				</section>
+				<section data-auto-animate>
+					<p class="grey">Definition of Problem-Solving Agents</p>
+					<p>Agents that decide what to do by finding sequences of actions that lead to
+						desirable states</p>
+				</section>
+				<section>
+					<h3>Formulating Problems</h3>
+					<p class="fragment">Definition of search problem:</p>
+					<ul title="Formulating Problems">
+
+
+						<aside class="notes">
+							Actions - Givet ett tillstånd s, returnerar ACTIONS (s) en begränsad/ändlig uppsättning av
+							åtgärder som kan utföras i state "s"
+							<br><br>
+							Transition Model - Beskriver vad varje ACTION gör. RESULT(s, a) returnerar
+							en state (s prime) som är resultatet av att göra ACTION "a" i state "s".
+							<br><br>
+							Action Cost- (s, a, s') ger den numeriska kostnaden för att tillämpa action "a"
+							i state "s" för att nå state "s prime"
+						</aside>
+
+
+						<li class="fragment">State space <span class="fragment fade-in-then-semi-out" id="description">
+								- a set of possible states that the environment can be in</span></li>
+						<li class="fragment">Initial state <span class="fragment fade-in-then-semi-out"
+								id="description"> - the agent starts here</span></li>
+						<li class="fragment">Goal state <span class="fragment fade-in-then-semi-out" id="description"> -
+								one, many, or infinite</span></li>
+						<li class="fragment">Actions <span class="fragment fade-in-then-semi-out" id="description"> -
+								the actions that can be executed from a given state</span></li>
+						<li class="fragment">Transition model <span class="fragment fade-in-then-semi-out"
+								id="description"> - the outcome of an action (RESULT(s, a))</span></li>
+						<li class="fragment">Action cost <span class="fragment fade-in-then-semi-out" id="description">
+								- the cost associated with making a specific action (s, a, s')</span></li>
+					</ul>
+				</section>
+				<section>
+
+					<p class="fragment">more words to remember:</p>
+					<ul title="Path, solution and optimal solution">
+						<li class="fragment">Path <span class="fragment fade-in-then-semi-out" id="description"> - a
+								sequence of actions</span></li>
+						<li class="fragment">Solution <span class="fragment fade-in-then-semi-out" id="description"> - a
+								path from the initial state to a goal
+								state</span></li>
+						<li class="fragment">Optimal solution <span class="fragment fade-in-then-semi-out"
+								id="description"> - the lowest path cost among all solutions</span></li>
+					</ul>
+
+				</section>
+
+
+			</section>
+
+			<section data-background-color="white" data-background="images/bild.png" data-background-opacity="0.2">
+				<section>
+					<h2>Example Problems</h2>
+				</section>
+
+				<section data-auto-animate>
+					<aside class="notes">
+						Varje förflyttning innebär ett nytt state
+					</aside>
+					<div class="r-stack" data-id="puzzle">
+
+						<img src="images/8-puzzle_1.svg" width="900" height="900">
+						<img class="fragment" src="images/8-puzzle_2.svg" width="900" height="900">
+
+						<img class="fragment" src="images/8-puzzle_3.svg" width="900" height="900">
+					</div>
+				</section>
+
+				<section data-auto-animate>
+
+					<img class="custom_image" src="images/8-puzzle4.svg" width="200" height="200">
+
+					<h4>Formulating 8-puzzle:</h4>
+					<ul class="problem_tables" title="Formulating 8-puzzle">
+						<li class="fragment">States <span class="fragment fade-in-then-semi-out" id="description">
+								- location of each of the tiles</span></li>
+						<li class="fragment">Initial state <span class="fragment fade-in-then-semi-out"
+								id="description"> - any arbitrary state</span></li>
+						<li class="fragment">Goal state <span class="fragment fade-in-then-semi-out" id="description"> -
+								[][1][2]...</span></li>
+						<li class="fragment">Actions <span class="fragment fade-in-then-semi-out" id="description"> -
+								blank space moving Left, Right, Up, or Down</span></li>
+						<li class="fragment">Transition model <span class="fragment fade-in-then-semi-out"
+								id="description"> - state + action = new state</span></li>
+						<li class="fragment">Action cost <span class="fragment fade-in-then-semi-out" id="description">
+								- 1</span></li>
+					</ul>
+				</section>
+				<section>
+					<h3>Pathfinding Problem</h3>
+				</section>
+
+				<section data-auto-animate>
+					<img class="custom_image" src="images/path.svg">
+
+					<h4>Arad to Bucharest:</h4>
+					<ul class="problem_tables" title="Formulating 8-puzzle">
+						<li class="fragment">States <span class="fragment fade-in-then-semi-out" id="description">
+								- All the cities on the road map</span></li>
+						<li class="fragment">Initial state <span class="fragment fade-in-then-semi-out"
+								id="description"> - Arad</span></li>
+						<li class="fragment">Goal state <span class="fragment fade-in-then-semi-out" id="description"> -
+								Bucharest</span></li>
+						<li class="fragment">Actions <span class="fragment fade-in-then-semi-out" id="description"> -
+								ACTIONS(Arad) = {ToSibiu, ToTimisoara, ToZerind}</span></li>
+						<li class="fragment">Transition model <span class="fragment fade-in-then-semi-out"
+								id="description"> - RESULT(Arad, ToZerind) = Zerind</span></li>
+						<li class="fragment">Action cost <span class="fragment fade-in-then-semi-out" id="description">
+								- miles from s to s'</span></li>
+					</ul>
+				</section>
+
+			</section>
+
+			<section data-background-color="white" data-background="images/graph_vs_tree.png" data-background-opacity="0.2">
+				<section data-auto-animate>
+					<h2>Graph Search vs. Tree Search</h2>
+				</section>
+				<section data-auto-animate>
+					<h2>Graph Search vs. Tree Search</h2>
+					<h3>Understanding the Differences</h3>
+				</section>
+				<section data-auto-animate>
+					<h2>Graph Search vs. Tree Search</h2>
+					<table class="comparison table">
+						<thead>
+							<tr>
+								<th>Aspect</th>
+								<th>Graph Search</th>
+								<th>Tree Search</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="fragment">
+								<td>Nodes Representation</td>
+								<td>Checks and stores every visited state to avoid revisiting</td>
+								<td>Treats each new state as a new node, even if it was visited before</td>
+							</tr>
+							<tr class="fragment">
+								<td>Memory Usage</td>
+								<td>Higher, due to storage of all visited states</td>
+								<td>Lower, as it does not store all visited states</td>
+							</tr>
+							<tr class="fragment">
+								<td>Time Efficiency</td>
+								<td>Can be more efficient by avoiding redundant paths</td>
+								<td>Less efficient due to the possibility of exploring redundant paths</td>
+							</tr>
+							<tr class="fragment">
+								<td>Cycles Handling</td>
+								<td>Avoids cycles effectively</td>
+								<td>May get trapped in cycles</td>
+							</tr>
+							<tr class="fragment">
+								<td>Completeness</td>
+								<td>Complete if state space is finite</td>
+								<td>May not be complete if cycles are present</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+				<section>
+					<h2>Implications</h2>
+					<ul>
+						<li class="fragment">Graph search is preferable in problems with a large number of repeated states or cycles</li>
+						<li class="fragment">Tree search is simpler and may be more memory efficient, but risks redundancy and getting trapped in cycles</li>
+						<li class="fragment">The choice of search strategy must consider the specific problem's state space and constraints</li>
+					</ul>
+				</section>
+			</section>
+
+			<section data-background-color="white" data-background="images/uninformed.png" data-background-opacity="0.2">
+				<section data-auto-animate>
+					<h1>Uninformed Search Strategies</h1>
+				</section>
+				<section data-auto-animate>
+					<h1>Uninformed Search Strategies</h1>
+					<p><strong>Definition:</strong> Search strategies that explore paths without prior knowledge of the
+						goal, relying only on the given problem structure.</p>
+				</section>
+				<section data-auto-animate>
+					<h1>Uninformed Search Strategies</h1>
+
+					<ul>
+						<li>Breadth-first search</li>
+						<li>Uniform-cost search</li>
+						<li>Depth-first search</li>
+					</ul>
+				</section>
+				<section data-auto-animate>
+
+					<h1>Uninformed Search Strategies</h1>
+
+					<ul>
+						<li>Breadth-first search</li>
+						<li class="grey">Depth-limited search</li>
+						<li>Uniform-cost search</li>
+						<li class="grey">Iterative deepening search</li>
+						<li class="grey">Bidirectional Search</li>
+						<li>Depth-first search</li>
+					</ul>
+				</section>
+			</section>
+
+			<section data-background-color="white" data-background="images/uninformed.png" data-background-opacity="0.2">
+				<section data-auto-animate>
+					<h1>Breadth-First Search</h1>
+				</section>
+				<section data-auto-animate>
+					<h1>Breadth-First Search</h1>
+					<p><strong>Definition:</strong> A search strategy that explores all nodes at the current depth
+						before proceeding to nodes at the next depth level</p>
+
+				</section>
+				<section data-auto-animate>
+					<h1>Breadth-First Search</h1>
+					<img class="r-stretch" src="images/breadth_first_example.gif">
+				</section>
+				<section data-auto-animate>
+					<h1>Characteristics</h1>
+					<ul title="BFS properties">
+						<li class="fragment">Completeness<span class="fragment fade-in-then-semi-out" id="description">
+								- Yes (if a solution exists, BFS will find it)</span></li>
+						<li class="fragment">Time Complexity<span class="fragment fade-in-then-semi-out"
+								id="description"> -
+								<em>O(b<sup>d</sup>)</em>, where <em>b</em> is the branching factor and <em>d</em> is
+								the depth of the solution</span></li>
+						<li class="fragment">Space Complexity<span class="fragment fade-in-then-semi-out"
+								id="description"> -
+								<em>O(b<sup>d</sup>)</em> (can be high in practice)</span></li>
+						<li class="fragment">Optimality<span class="fragment fade-in-then-semi-out" id="description"> -
+								Yes, if the cost between steps is equal</span></li>
+					</ul>
+
+
+
+				</section>
+				<section data-auto-animate>
+					<h1>Applications</h1>
+					<ul>
+						<li>Shortest path in unweighted networks</li>
+						<li>Social network analysis ("Six degrees of Kevin Bacon")</li>
+						<li>Puzzle games (e.g., sliding-tile puzzles)</li>
+					</ul>
+
+
+
+				</section>
+			</section>
+
+
+
+
+			<section data-background-color="white" data-background="images/uninformed.png" data-background-opacity="0.2">
+				<section data-auto-animate>
+					<h1>Depth-First Search</h1>
+				</section>
+				<section data-auto-animate>
+					<h1>Depth-First Search</h1>
+					<p><strong>Definition:</strong> A search strategy that explores as deeply as possible along each
+						branch before backtracking</p>
+				</section>
+				<section data-auto-animate>
+					<h1>Depth-First Search</h1>
+					<img class="r-stretch" src="images/depth_first_example.gif">
+				</section>
+				<section data-auto-animate>
+					<h1>Characteristics</h1>
+					<ul title="DFS Characteristics">
+						<li class="fragment">Completeness<span class="fragment fade-in-then-semi-out" id="description">
+								- No (in infinite spaces); Yes (in finite spaces)</span></li>
+						<li class="fragment">Time Complexity<span class="fragment fade-in-then-semi-out"
+								id="description"> -
+								<em>O(b<sup>m</sup>)</em>, where <em>b</em> is the branching factor and <em>m</em> is
+								the maximum depth of the search tree</span></li>
+						<li class="fragment">Space Complexity<span class="fragment fade-in-then-semi-out"
+								id="description"> -
+								<em>O(bm)</em> (better than BFS in many cases)</span></li>
+						<li class="fragment">Optimality<span class="fragment fade-in-then-semi-out" id="description"> -
+								No</span></li>
+					</ul>
+				</section>
+				<section data-auto-animate>
+					<h1>Applications</h1>
+					<ul>
+						<li>Pathfinding in maze puzzles</li>
+						<li>Topological sorting</li>
+						<li>Cycle detection in graphs</li>
+						<li>Game tree explorations in games like chess and checkers (modified)</li>
+
+					</ul>
+				</section>
+			</section>
+
+			<section data-background-color="white" data-background="images/uninformed.png" data-background-opacity="0.2">
+				<section data-auto-animate>
+					<h1>Uniform-Cost Search</h1>
+				</section>
+				<section data-auto-animate>
+					<h1>Uniform-Cost Search</h1>
+					<h3>(AKA: Dijkstra’s algorithm)</h3>
+					<p><strong>Definition:</strong> A search strategy that explores nodes in increasing order of cost,
+						ensuring the least cost path to a goal is found first.</p>
+				</section>
+				<section data-auto-animate>
+					<h1>Uniform-Cost Search</h1>
+					<img class="r-stretch" src="images/uniform-cost_example.gif">
+				</section>
+				<section data-auto-animate>
+					<h1>Characteristics</h1>
+					<ul title="UCS Characteristics">
+						<li class="fragment">Completeness<span class="fragment fade-in-then-semi-out" id="description">
+								- Yes (if the cost of every step exceeds some small positive threshold ε)</span></li>
+						<li class="fragment">Time Complexity<span class="fragment fade-in-then-semi-out"
+								id="description">
+								- <em>O(b<sup>C*/ε</sup>)</em>, where <em>b</em> is the branching factor, <em>C*</em> is
+								the optimal solution cost, and <em>ε</em> is the smallest action cost</span></li>
+						<li class="fragment">Space Complexity<span class="fragment fade-in-then-semi-out"
+								id="description">
+								- <em>O(b<sup>C*/ε</sup>)</em></span></li>
+						<li class="fragment">Optimality<span class="fragment fade-in-then-semi-out" id="description">
+								- Yes</span></li>
+					</ul>
+				</section>
+				<section data-auto-animate>
+					<h1>Applications</h1>
+					<ul>
+						<li>Route finding on maps with varied costs</li>
+						<li>Network routing with different connection costs</li>
+						<li>Production processes with varied task costs</li>
+					</ul>
+				</section>
+			</section>
+
+
+			<section data-background-color="white" data-background="images/informed.png" data-background-opacity="0.2">
+				<section data-auto-animate>
+					<h1>Informed (Heuristic) Search Strategies</h1>
+				</section>
+				<section data-auto-animate>
+					<h1>Informed (Heuristic) Search Strategies</h1>
+					<p><strong>Definition:</strong> Search strategies that use knowledge beyond the problem definition
+						to find solutions more efficiently.</p>
+				</section>
+				<section data-auto-animate>
+					<aside class="notes">
+						Knowledge-driven/Kunskapsdriven - Kunskapsdriven: Dessa strategier drar nytta av specifik
+						kunskap om problemet.
+						Istället för att söka blindt har de en uppfattning, tack vare denna kunskap,
+						om vilken riktning som kan vara mest lovande.
+						<br><br>
+						Optimalitet: En viktig sak att komma ihåg är att informerade sökstrategier inte alltid
+						garanterar att hitta den optimala lösningen.
+						De kan hitta en lösning snabbare, men den kanske inte alltid är den bästa.
+						<br><br>
+						Vägledning: Dessa strategier vägleds i sin sökning med hjälp av heuristiska uppskattningar.
+						Dessa uppskattningar är ofta baserade på erfarenhet eller annan ytterligare
+						information och kan kraftigt påverka sökningens effektivitet.
+						<br><br>
+						Admissibilitet: Ett viktigt koncept här är admissibilitet.
+						En heuristik sägs vara admissibel om den aldrig överskattar kostnaden för att nå målet.
+						Med andra ord ger den en nedre gräns för den verkliga kostnaden.
+					</aside>
+					<h1>Characteristics</h1>
+					<ul title="Characteristics">
+						<li class="fragment">Knowledge-driven<span class="fragment fade-in-then-semi-out"
+								id="description"> - Uses problem-specific knowledge</span></li>
+						<li class="fragment">Optimality<span class="fragment fade-in-then-semi-out" id="description"> -
+								Not always guaranteed</span></li>
+						<li class="fragment">Guidance<span class="fragment fade-in-then-semi-out" id="description"> -
+								Directs search using heuristic estimates</span></li>
+						<li class="fragment">Admissibility<span class="fragment fade-in-then-semi-out" id="description">
+								- A heuristic is admissible if it never overestimates the cost</span></li>
+					</ul>
+				</section>
+				<section data-auto-animate>
+					<h1>Examples</h1>
+					<ul>
+						<li>A* Search Algorithm</li>
+						<li>Greedy Best-First Search</li>
+						<li>Iterative Deepening A*</li>
+						<li>Simulated Annealing</li>
+					</ul>
+				</section>
+			</section>
+
+		
+
+
+			<section data-background-color="white" data-background="images/informed.png" data-background-opacity="0.2">
+				<section data-auto-animate>
+					<h1>Best-first Search</h1>
+				</section>
+				<section data-auto-animate>
+					<h1>Best-first Search</h1>
+					<p><strong>Definition:</strong> An informed search strategy that prioritizes nodes based on a
+						heuristic function's estimation of 'promise' or 'desirability'.</p>
+				</section>
+				<section data-auto-animate>
+					<h1>Characteristics</h1>
+					<ul>
+						<li class="fragment">Uses heuristic values to prioritize node expansion.</li>
+						<li class="fragment">Can adapt to different heuristics for diverse problems.</li>
+						<li class="fragment">Often more efficient than uninformed search strategies.</li>
+						<li class="fragment">Optimality is not guaranteed.</li>
+					</ul>
+				</section>
+				<section data-auto-animate>
+					<h1>Subsets of Best-first Search</h1>
+					<ul>
+						<li class="fragment">A* Search - Combines heuristic with path cost for optimality.</li>
+						<li class="fragment">Greedy Best-first Search - Focuses solely on the heuristic, often faster
+							but less accurate.</li>
+						<li class="fragment">Others - Many variants exist, each tailored to specific problems and
+							heuristics.</li>
+					</ul>
+				</section>
+				<!-- <section data-auto-animate>
+					<h1>Applications of Best-first Search</h1>
+					<ul>
+						<li>Pathfinding in various domains</li>
+						<li>Problem-solving in AI where heuristic knowledge is available</li>
+						<li>Real-time strategy games, robotics, and more</li>
+					</ul>
+				</section> -->
+			</section>
+
+			<section data-background-color="white" data-background="images/informed.png" data-background-opacity="0.2">
+				<section data-auto-animate>
+					<h1>A* Search</h1>
+				</section>
+				<section data-auto-animate>
+					<h1>A* Search</h1>
+					<p><strong>Definition:</strong> A search strategy that combines the advantages of best-first search
+						and uniform-cost search, using both path cost and heuristic estimates to find the most efficient
+						path to the goal.</p>
+				</section>
+				<section data-auto-animate>
+					<h1>A* Search</h1>
+				</section>
+				<section data-auto-animate>
+					<h1>Characteristics</h1>
+					<ul title="A* Characteristics">
+						<li class="fragment">Completeness<span class="fragment fade-in-then-semi-out" id="description">
+								- Yes (if the heuristic is admissible and consistent)</span></li>
+						<li class="fragment">Time Complexity<span class="fragment fade-in-then-semi-out"
+								id="description">
+								- Depends on the heuristic. In the worst case, it is <em>O(b<sup>d</sup>)</em>, where
+								<em>b</em> is the branching factor and <em>d</em> is the depth of the solution</span>
+						</li>
+						<li class="fragment">Space Complexity<span class="fragment fade-in-then-semi-out"
+								id="description">
+								- <em>O(b<sup>d</sup>)</em></span></li>
+						<li class="fragment">Optimality<span class="fragment fade-in-then-semi-out" id="description">
+								- Yes (if the heuristic is admissible and consistent)</span></li>
+					</ul>
+				</section>
+				<section data-auto-animate>
+					<h1>Applications</h1>
+					<ul>
+						<li>Pathfinding in games and robotics</li>
+						<li>AI puzzle solving, such as the 8-puzzle</li>
+						<li>Route planning systems with various constraints</li>
+					</ul>
+				</section>
+			</section>
+
+			<section data-background-color="white" data-background="images/straight_line.png" data-background-opacity="0.2">
+				<section data-auto-animate>
+					<h1>Straight-Line Distance Heuristics</h1>
+				</section>
+				<section data-auto-animate>
+					<h1>Straight-Line Distance Heuristics</h1>
+					<p><strong>Definition:</strong> A heuristic measure using the shortest possible path
+						(as if 'drawn with a straight line') between two points, without considering
+						any obstacles or specific paths that might exist in the space.</p>
+				</section>
+
+				<section data-auto-animate>
+					<h1>Characteristics</h1>
+					<ul title="SLD Characteristics">
+						<li class="fragment">Formula<span class="fragment fade-in-then-semi-out" id="description"> - For
+								two points <em>P</em><sub>1</sub>(<em>x</em><sub>1</sub>, <em>y</em><sub>1</sub>) and
+								<em>P</em><sub>2</sub>(<em>x</em><sub>2</sub>, <em>y</em><sub>2</sub>) in a
+								2-dimensional space:
+								<br>
+								Distance = &radic;((<em>x</em><sub>2</sub>-<em>x</em><sub>1</sub>)<sup>2</sup> +
+								(<em>y</em><sub>2</sub>-<em>y</em><sub>1</sub>)<sup>2</sup>)</span></li>
+						<li class="fragment">Uses<span class="fragment fade-in-then-semi-out" id="description">
+								<ul>
+									<li>Pathfinding algorithms in clear terrains.</li>
+									<li class="grey">Initial approximations in more complex algorithms.</li>
+									<li class="grey">Comparing relative distances in spatial problems.</li>
+								</ul>
+							</span></li>
+						<li class="fragment">Advantages<span class="fragment fade-in-then-semi-out" id="description">
+								<ul>
+									<li><strong>Simplicity:</strong> Easy to compute.</li>
+									<li><strong>Admissible:</strong> Never overestimates the true distance.</li>
+								</ul>
+							</span></li>
+					</ul>
+				</section>
+			</section>
+
+			<section data-background-color="white" data-background="images/manhattan.png" data-background-opacity="0.2">
+				<section data-auto-animate>
+					<h1>Manhattan Distance Heuristics</h1>
+				</section>
+				<section data-auto-animate>
+					<h1>Manhattan Distance Heuristics</h1>
+					<p><strong>Definition:</strong> A heuristic measure calculating the total distance between two
+						points
+						in a grid-based path (like Manhattan street grids) by moving only horizontally or vertically,
+						not diagonally.</p>
+				</section>
+				<section data-auto-animate>
+					<h1>Characteristics</h1>
+					<ul title="Characteristics">
+						<li class="fragment">Formula<span class="fragment fade-in-then-semi-out" id="description"> - For
+								two points <em>P</em><sub>1</sub>(<em>x</em><sub>1</sub>, <em>y</em><sub>1</sub>) and
+								<em>P</em><sub>2</sub>(<em>x</em><sub>2</sub>, <em>y</em><sub>2</sub>) in a grid:
+								<br>
+								Distance = |<em>x</em><sub>2</sub> - <em>x</em><sub>1</sub>| + |<em>y</em><sub>2</sub> -
+								<em>y</em><sub>1</sub>|</span></li>
+						<li class="fragment">Uses<span class="fragment fade-in-then-semi-out" id="description">
+								<ul>
+									<li>Pathfinding in grid-based environments, like city blocks or tile-based games.
+									</li>
+									<li>Approximations in non-diagonal movements.</li>
+									<li>A* search when diagonal movement is restricted.</li>
+								</ul>
+							</span></li>
+						<li class="fragment">Advantages<span class="fragment fade-in-then-semi-out" id="description">
+								<ul>
+									<li><strong>Simplicity:</strong> Direct and easy to compute.</li>
+									<li><strong>Relevance:</strong> Represents real-world constraints like city streets.
+									</li>
+								</ul>
+							</span></li>
+					</ul>
+				</section>
+			</section>
+
+			<section data-background-color="white" data-background="images/inconsistent.png" data-background-opacity="0.2">
+				<section data-auto-animate>
+					<h1>Consistency in Heuristics</h1>
+				</section>
+				<section data-auto-animate>
+					<h1>Consistency in Heuristics</h1>
+					<p><strong>Definition:</strong> Consistency ensures that for every node N and its successor node N'
+						(generated by any action a), the estimated cost of reaching the goal from N is
+						no greater than the step cost of getting to N' plus the estimated cost from N' to the goal.</p>
+				</section>
+				<section data-auto-animate>
+					<h1>Mathematically</h1>
+					<p>For every pair of adjacent nodes <em>N</em> and <em>N'</em>,</p>
+					<p><em>h</em>(<em>N</em>) &le; <em>c</em>(<em>N</em>, <em>a</em>, <em>N'</em>) +
+						<em>h</em>(<em>N'</em>)
+					</p>
+					<p>Where:</p>
+					<ul>
+						<li><em>h</em>(<em>N</em>) is the heuristic cost of node <em>N</em> to the goal.</li>
+						<li><em>c</em>(<em>N</em>, <em>a</em>, <em>N'</em>) is the cost of reaching <em>N'</em> from
+							<em>N</em> using action <em>a</em>.
+						</li>
+						<li><em>h</em>(<em>N'</em>) is the heuristic cost of node <em>N'</em> to the goal.</li>
+					</ul>
+				</section>
+				<section data-auto-animate>
+					<h1>Implication</h1>
+					<p>Consistency ensures that the heuristic is globally admissible, meaning it doesn't overestimate
+						the cost from any node to the goal.</p>
+				</section>
+
+				<section data-auto-animate>
+					<h1>Benefit</h1>
+					<p>In algorithms like A*, if the heuristic is consistent, then the first path found to the goal is
+						guaranteed to be optimal.</p>
+				</section>
+
+				<section data-auto-animate>
+					<aside class="notes">
+						Tänk dig en enkel graf med fyra noder: A, B, C och G (där G är målnoden). Grafen ser ut så här:
+
+						A->B = 4
+						B->C = 2
+						C->G = 3
+						B->G = 6
+						Nu definierar vi heuristiken (h-värdena) för varje nod:
+
+						h(A) = 7 (tillåten eftersom den verkliga kostnaden från A till G är 10 (A->B->G) eller 9
+						(A->B->C->G), och 7 är mindre än dessa värden)
+						h(B) = 5 (tillåten eftersom den verkliga kostnaden från B till G är 5)
+						h(C) = 2 (tillåten eftersom den verkliga kostnaden från C till G är 3)
+						h(G) = 0 (alltid sant för målnoden)
+						För att visa att denna heuristik är tillåten men inte konsekvent, låt oss undersöka relationen
+						mellan B och C. En konsekvent heuristik skulle kräva att:
+
+						h(B) ≤ c(B, a, C) + h(C)
+
+						I vårt exempel är h(B) = 5, c(B, a, C) = 2 (kostnaden för att gå från B till C) och h(C) = 2. Så
+						vi har:
+
+						5 ≤ 2 + 2
+
+						Detta är inte sant eftersom 5 är inte mindre än eller lika med 4. Således är heuristiken inte
+						konsekvent, även om den är tillåten eftersom den aldrig överskattar den verkliga kostnaden för
+						att nå målet från någon nod.
+
+						Detta exempel visar tydligt skillnaden mellan en tillåten och en konsekvent heuristik: även om
+						heuristiken aldrig överskattar den verkliga kostnaden (och därmed är tillåten), uppfyller den
+						inte villkoret för konsekvens på grund av relationen mellan noderna B och C.
+					</aside>
+
+					<h1>Admissible but not consistent</h1>
+					<img class="r-stretch" src="images/adm_no_cons.png" alt="admissiblie but not consistent" />
+				</section>
+
+			</section>
+
 		</div>
+	</div>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script src="plugin/zoom/zoom.js"></script>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealZoom, RevealMarkdown, RevealHighlight, RevealNotes],
+
+		});
+		Reveal.configure({ progress: false });
+		Reveal.configure({ pdfSeparateFragments: false });
+
+	</script>
+
+</body>
+
 </html>
